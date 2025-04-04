@@ -1,5 +1,7 @@
 package com.sportclub.migracion_usuarios.user.application.update_by_id;
 
+import com.sportclub.migracion_usuarios.sede.domain.entity.Sede;
+import com.sportclub.migracion_usuarios.sede.infrastructure.repository.SedeRepository;
 import com.sportclub.migracion_usuarios.user.domain.dto.UserDTO;
 import com.sportclub.migracion_usuarios.user.domain.entity.User;
 import com.sportclub.migracion_usuarios.user.domain.exception.UserNotFoundException;
@@ -20,6 +22,7 @@ public class UserUpdaterPartialByIdImpl implements UserUpdaterPartialById {
     private static final String UPDATE_SUCCESS = "Usuario actualizado exitosamente - ID: {}";
 
     private final UserRepository userRepository;
+    private final SedeRepository sedeRepository;
     private final UserMapper userMapper;
 
     @Override
@@ -32,8 +35,11 @@ public class UserUpdaterPartialByIdImpl implements UserUpdaterPartialById {
                     log.warn(USER_NOT_FOUND, id);
                     return new UserNotFoundException("Usuario no encontrado con id: " + id);
                 });
+        Sede sede = sedeRepository.findById(userDTO.getSedeId())
+                .orElseThrow(() -> new RuntimeException("Sede no encontrada con ID: " + userDTO.getSedeId()));
 
-        userMapper.updateFromDto(userDTO, user);
+
+        userMapper.updateFromDto(userDTO, user, sede);
         User updatedUser = userRepository.save(user);
 
         log.info(UPDATE_SUCCESS, id);

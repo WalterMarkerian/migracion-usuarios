@@ -2,24 +2,54 @@ package com.sportclub.migracion_usuarios.sede.infrastructure.mapper;
 
 import com.sportclub.migracion_usuarios.sede.domain.dto.SedeDTO;
 import com.sportclub.migracion_usuarios.sede.domain.entity.Sede;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring",
-        unmappedTargetPolicy = ReportingPolicy.IGNORE,
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface SedeMapper {
+public class SedeMapper {
 
-    SedeMapper INSTANCE = Mappers.getMapper(SedeMapper.class);
+    // Método para convertir de Sede a SedeDTO
+    public SedeDTO toDto(Sede sede) {
+        if (sede == null) {
+            return null;
+        }
 
-    @Mapping(target = "usuarios", ignore = true)
-    SedeDTO toDto(Sede sede);
+        SedeDTO sedeDTO = new SedeDTO();
+        sedeDTO.setId(sede.getId());
+        sedeDTO.setNombre(sede.getNombre());
+        sedeDTO.setDireccion(sede.getDireccion());
+        sedeDTO.setCiudad(sede.getCiudad());
 
-    @Mapping(target = "usuarios", ignore = true)
-    Sede toEntity(SedeDTO sedeDTO);
+        return sedeDTO;
+    }
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "usuarios", ignore = true)
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateFromDto(SedeDTO sedeDTO, @MappingTarget Sede sede);
+    // Método para convertir de SedeDTO a Sede
+    public Sede toEntity(SedeDTO sedeDTO) {
+        if (sedeDTO == null) {
+            return null;
+        }
+
+        Sede sede = new Sede();
+        sede.setId(sedeDTO.getId());
+        sede.setNombre(sedeDTO.getNombre());
+        sede.setDireccion(sedeDTO.getDireccion());
+        sede.setCiudad(sedeDTO.getCiudad());
+
+        return sede;
+    }
+
+    // Método para actualizar la entidad Sede usando los datos del DTO
+    public void updateFromDto(SedeDTO sedeDTO, Sede sede) {
+        if (sedeDTO == null || sede == null) {
+            return;
+        }
+
+        // Actualizar los campos de la entidad Sede usando los valores del DTO
+        if (sedeDTO.getNombre() != null) {
+            sede.setNombre(sedeDTO.getNombre());
+        }
+        if (sedeDTO.getDireccion() != null) {
+            sede.setDireccion(sedeDTO.getDireccion());
+        }
+        if (sedeDTO.getCiudad() != null) {
+            sede.setCiudad(sedeDTO.getCiudad());
+        }
+    }
 }

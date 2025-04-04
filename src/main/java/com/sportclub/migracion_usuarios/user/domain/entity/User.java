@@ -40,13 +40,15 @@ public class User {
     private String telefono;
 
     @Column(length = 20)
-    @Schema(description = "Dni del usuario", example = "12345678")
+    @Schema(description = "Dni del usuario", example = "38618902")
     private Long dni;
 
+    // Relación ManyToOne unidireccional con la Sede
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sede_id", nullable = false)
+    @JoinColumn(name = "sede_id", nullable = false) // La columna de clave foránea en la tabla de usuarios
     @Schema(description = "Sede a la que pertenece el usuario")
     private Sede sede;
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 15)
@@ -56,4 +58,3 @@ public class User {
             requiredMode = Schema.RequiredMode.REQUIRED)
     private Estado estado;
 }
-

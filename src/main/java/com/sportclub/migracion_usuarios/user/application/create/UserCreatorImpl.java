@@ -1,5 +1,7 @@
 package com.sportclub.migracion_usuarios.user.application.create;
 
+import com.sportclub.migracion_usuarios.sede.domain.entity.Sede;
+import com.sportclub.migracion_usuarios.sede.infrastructure.repository.SedeRepository;
 import com.sportclub.migracion_usuarios.user.domain.dto.UserDTO;
 import com.sportclub.migracion_usuarios.user.domain.entity.User;
 import com.sportclub.migracion_usuarios.user.domain.enums.Estado;
@@ -22,6 +24,7 @@ public class UserCreatorImpl implements UserCreator {
     private static final String USER_CREATED_FORMAT = "Usuario creado exitosamente - ID: %d, DNI: %s";
 
     private final UserRepository userRepository;
+    private final SedeRepository sedeRepository;
     private final UserMapper userMapper;
 
     @Transactional
@@ -53,7 +56,9 @@ public class UserCreatorImpl implements UserCreator {
     }
 
     private User createAndSaveUser(UserDTO userDTO) {
-        User user = userMapper.toEntity(userDTO);
+        Sede sede = sedeRepository.findById(userDTO.getSedeId())
+                .orElseThrow(() -> new RuntimeException("Sede no encontrada con ID: " + userDTO.getSedeId()));
+        User user = userMapper.toEntity(userDTO, sede);
         setDefaultStatusIfNull(user);
         return userRepository.save(user);
     }
