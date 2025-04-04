@@ -1,0 +1,8 @@
+package com.sportclub.migracion_usuarios.user.application.find_by_dni;
+
+import com.tallerDeMotos.cliente.domain.dto.ClienteDTO;
+import com.tallerDeMotos.cliente.domain.exception.ClienteNotFoundException;
+
+public interface UserFinderByDni {
+    ClienteDTO findByDni(Long dni) throws ClienteNotFoundException;
+}

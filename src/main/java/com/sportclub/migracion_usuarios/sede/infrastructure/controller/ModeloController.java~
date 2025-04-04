@@ -1,0 +1,58 @@
+package com.tallerDeMotos.motocicletas.infrastructure.controller;
+
+import com.tallerDeMotos.commons.dto.PageResponseDTO;
+import com.tallerDeMotos.motocicletas.application.modelo.create.ModeloCreator;
+import com.tallerDeMotos.motocicletas.application.modelo.filter.nombreModelo.ModeloFilterByNombreModelo;
+import com.tallerDeMotos.motocicletas.application.modelo.find_all.ModeloFindAll;
+import com.tallerDeMotos.motocicletas.application.modelo.find_by_marca.ModeloFindByMarcaId;
+import com.tallerDeMotos.motocicletas.domain.dto.ModeloDTO;
+import com.tallerDeMotos.motocicletas.domain.exception.modelo.ModeloDuplicatedException;
+import com.tallerDeMotos.motocicletas.domain.exception.modelo.ModeloNotFoundException;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/modelos")
+@RequiredArgsConstructor
+public class ModeloController {
+
+    private final ModeloCreator modeloCreator;
+    private final ModeloFindAll modeloFindAll;
+    private final ModeloFindByMarcaId modeloFindAllByMarcaId;
+    private final ModeloFilterByNombreModelo modeloFilterByNombreModelo;
+
+    // Endpoint para crear un nuevo modelo
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ModeloDTO createModelo(@Valid @RequestBody ModeloDTO modeloDTO)
+            throws ModeloDuplicatedException, ModeloNotFoundException {
+        System.out.println(modeloDTO);
+        return modeloCreator.createModelo(modeloDTO);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<PageResponseDTO<ModeloDTO>> getAllModelos(@RequestParam(defaultValue = "1") Integer page,
+                                                                    @RequestParam(defaultValue = "5") Integer pageSize) {
+
+        return ResponseEntity.ok(modeloFindAll.findAll(page, pageSize));
+    }
+
+    @GetMapping("/findbymarcaid")
+    public ResponseEntity<PageResponseDTO<ModeloDTO>> getModelosByMarcaId(@RequestParam(defaultValue = "1") Integer page,
+                                                                          @RequestParam(defaultValue = "5") Integer pageSize,
+                                                                          @RequestParam Long marcaId
+    ) {
+        return ResponseEntity.ok(modeloFindAllByMarcaId.findByMarcaId(page, pageSize, marcaId));
+    }
+
+    @GetMapping("/filterByNombreModelo")
+    public ResponseEntity<PageResponseDTO<ModeloDTO>> getModelosByFilterByNombreModelo(@RequestParam String nombre_modelo
+    ) {
+
+        return ResponseEntity.ok(modeloFilterByNombreModelo.filterByNombreModelo(nombre_modelo));
+
+    }
+}

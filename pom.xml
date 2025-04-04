@@ -11,9 +11,9 @@
     </parent>
 
     <groupId>com.sportclub</groupId>
-    <artifactId>migracion-usuarios</artifactId>
+    <artifactId>migracion-usuarioDTOS</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>migracion-usuarios</name>
+    <name>migracion-usuarioDTOS</name>
     <description>Evaluación técnica para Sport Club</description>
 
     <properties>
@@ -71,11 +71,16 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Lombok para reducir código boilerplate -->
+        <!-- 🔹 Lombok (Para reducir código repetitivo como getters y setters) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-mapstruct-binding</artifactId>
+            <version>0.2.0</version>
         </dependency>
 
         <!-- MapStruct para mapeo DTOs-Entidades -->
@@ -110,6 +115,14 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- Springdoc OpenAPI para documentación de la API con Swagger -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.5.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -125,7 +138,20 @@
                 </configuration>
             </plugin>
 
-            <!-- Plugin para empaquetar la aplicación Spring Boot -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.5.5.Final</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
