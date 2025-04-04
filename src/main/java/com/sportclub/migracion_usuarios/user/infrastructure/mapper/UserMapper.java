@@ -3,10 +3,11 @@ package com.sportclub.migracion_usuarios.user.infrastructure.mapper;
 import com.sportclub.migracion_usuarios.sede.domain.entity.Sede;
 import com.sportclub.migracion_usuarios.user.domain.dto.UserDTO;
 import com.sportclub.migracion_usuarios.user.domain.entity.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper {
 
-    // Método para convertir de User a UserDTO
     public UserDTO toDto(User user) {
         if (user == null) {
             return null;
@@ -25,7 +26,6 @@ public class UserMapper {
         return userDTO;
     }
 
-    // Método para convertir de UserDTO a User
     public User toEntity(UserDTO userDTO, Sede sede) {
         if (userDTO == null) {
             return null;
@@ -44,13 +44,11 @@ public class UserMapper {
         return user;
     }
 
-    // Método para actualizar la entidad User usando los datos del DTO
     public void updateFromDto(UserDTO userDTO, User user, Sede sede) {
         if (userDTO == null || user == null) {
             return;
         }
 
-        // Actualizar los campos de la entidad User usando los valores del DTO
         if (userDTO.getNombre() != null) {
             user.setNombre(userDTO.getNombre());
         }
@@ -70,7 +68,6 @@ public class UserMapper {
             user.setEstado(userDTO.getEstado());
         }
 
-        // Solo actualiza la sede si el id es válido
         if (userDTO.getSedeId() != null && sede != null && sede.getId().equals(userDTO.getSedeId())) {
             user.setSede(sede);
         }

@@ -26,16 +26,13 @@ public class UserFinderAllImpl implements UserFinderAll {
     private final HttpServletRequest request;
 
     @Override
-    public PageResponseDTO<UserDTO> findAll(Integer page, Integer pageSize) {
+    public PageResponseDTO<UserDTO> findAll(Integer page, Integer pageSize, String sort) {
 
         String host = request.getHeader("Host");
 
         List<UserDTO> usersDTO = new ArrayList<>();
-        if (page > 0) {
-            page = page - 1;
-        }
-        // Agregar ordenamiento descendente por clienteId
-        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Order.desc("clienteId")));
+
+        Pageable pageable = PageRequest.of(page > 0 ? page - 1 : page, pageSize, Sort.by(Sort.Direction.ASC, sort));
         Page<User> users = userRepository.findAll(pageable);
 
 
@@ -45,10 +42,9 @@ public class UserFinderAllImpl implements UserFinderAll {
         System.out.println(page);
 
 
-        GeneratePrevNextPage prevNext = new GeneratePrevNextPage(host, page + 1, pageSize, (int) users.getTotalPages(), GeneratePrevNextPage.Path.USUARIOS, null);
+        GeneratePrevNextPage prevNext = new GeneratePrevNextPage(host, page, pageSize, (int) users.getTotalPages(), GeneratePrevNextPage.Path.USUARIOS, null);
 
 
-        // Go to DTO Imp
         return new PageResponseDTO<>(
                 usersDTO,
                 users.getTotalPages(),

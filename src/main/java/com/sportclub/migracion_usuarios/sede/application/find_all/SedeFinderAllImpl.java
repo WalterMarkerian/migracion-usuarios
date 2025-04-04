@@ -26,15 +26,13 @@ public class SedeFinderAllImpl implements SedeFinderAll {
     private final SedeMapper sedeMapper;
 
     @Override
-    public PageResponseDTO<SedeDTO> findAll(Integer page, Integer pageSize) {
+    public PageResponseDTO<SedeDTO> findAll(Integer page, Integer pageSize, String sort) {
 
         String host = request.getHeader("Host");
 
         List<SedeDTO> sedeDTOS = new ArrayList<>();
-        if (page > 0) {
-            page = page - 1;
-        }
-        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.ASC, "id"));
+
+        Pageable pageable = PageRequest.of(page > 0 ? page - 1 : page, pageSize, Sort.by(Sort.Direction.ASC, sort));
         Page<Sede> sedes = sedeRepository.findAll(pageable);
 
         for (Sede sede : sedes) {
@@ -43,7 +41,7 @@ public class SedeFinderAllImpl implements SedeFinderAll {
 
         GeneratePrevNextPage prevNext = new GeneratePrevNextPage(
                 host,
-                page + 1,
+                page,
                 pageSize,
                 (int) sedes.getTotalPages(),
                 GeneratePrevNextPage.Path.SEDES,

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UserFinderAll {
-    PageResponseDTO<UserDTO> findAll(Integer page, Integer pageSize);
+    PageResponseDTO<UserDTO> findAll(Integer page, Integer pageSize, String sort);
 }

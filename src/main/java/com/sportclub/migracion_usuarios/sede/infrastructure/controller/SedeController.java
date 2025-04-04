@@ -4,15 +4,12 @@ import com.sportclub.migracion_usuarios.sede.application.create.SedeCreator;
 import com.sportclub.migracion_usuarios.sede.application.delete_by_id.SedeDeleterById;
 import com.sportclub.migracion_usuarios.sede.application.find_all.SedeFinderAll;
 import com.sportclub.migracion_usuarios.sede.application.find_by_id.SedeFinderById;
-import com.sportclub.migracion_usuarios.sede.application.find_by_name.SedeFinderByName;
+import com.sportclub.migracion_usuarios.sede.application.find_by_nombre.SedeFinderByNombre;
 import com.sportclub.migracion_usuarios.sede.application.update_by_id.SedeUpdaterPartialById;
 import com.sportclub.migracion_usuarios.sede.domain.dto.SedeDTO;
 import com.sportclub.migracion_usuarios.sede.domain.exception.SedeDuplicateNameException;
 import com.sportclub.migracion_usuarios.sede.domain.exception.SedeNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +21,7 @@ public class SedeController {
 
     private final SedeCreator sedeCreator;
     private final SedeFinderById sedeFinderById;
-    private final SedeFinderByName sedeFinderByName;
+    private final SedeFinderByNombre sedeFinderByNombre;
     private final SedeFinderAll sedeFinderAll;
     private final SedeDeleterById sedeDeleterById;
     private final SedeUpdaterPartialById sedeUpdaterPartialById;
@@ -49,10 +46,10 @@ public class SedeController {
         }
     }
 
-    @GetMapping("/name/{name}")
-    public ResponseEntity<?> getSedeByName(@PathVariable String name) {
+    @GetMapping("/nombre/{nombre}")
+    public ResponseEntity<?> getSedeByNombre(@PathVariable String nombre) {
         try {
-            SedeDTO sede = sedeFinderByName.findByName(name);
+            SedeDTO sede = sedeFinderByNombre.findByNombre(nombre);
             return ResponseEntity.ok(sede);
         } catch (SedeNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -61,12 +58,11 @@ public class SedeController {
 
     @GetMapping
     public ResponseEntity<?> getAllSedes(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "id") String sort) {
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).descending());
-        return ResponseEntity.ok(sedeFinderAll.findAll(page, size));
+        return ResponseEntity.ok(sedeFinderAll.findAll(page, pageSize, sort));
     }
 
     @PatchMapping("/{id}")

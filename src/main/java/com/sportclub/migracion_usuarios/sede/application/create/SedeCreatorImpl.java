@@ -18,7 +18,7 @@ public class SedeCreatorImpl implements SedeCreator {
     @Override
     public SedeDTO createSede(SedeDTO sedeDTO)
             throws SedeDuplicateNameException {
-        if (sedeRepository.existsByName(sedeDTO.getNombre())) {
+        if (sedeRepository.existsByNombre(sedeDTO.getNombre())) {
             throw new SedeDuplicateNameException("La sede " + sedeDTO.getNombre() + " ya existe.");
         }
 

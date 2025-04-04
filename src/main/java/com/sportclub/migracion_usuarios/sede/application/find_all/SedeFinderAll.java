@@ -4,5 +4,5 @@ import com.sportclub.migracion_usuarios.commons.dto.PageResponseDTO;
 import com.sportclub.migracion_usuarios.sede.domain.dto.SedeDTO;
 
 public interface SedeFinderAll {
-    PageResponseDTO<SedeDTO> findAll(Integer page, Integer pageSize);
+    PageResponseDTO<SedeDTO> findAll(Integer page, Integer pageSize, String sort);
 }

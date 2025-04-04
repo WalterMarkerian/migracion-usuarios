@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface SedeRepository extends JpaRepository<Sede, Long> {
-    Optional<Sede> findByName(String name);
+    Optional<Sede> findByNombre(String nombre);
 
-    boolean existsByName(String name); // Keep this if you need it for other purposes
+    boolean existsByNombre(String nombre); // Keep this if you need it for other purposes
 }

@@ -26,7 +26,6 @@ public class GeneratePrevNextPage {
 
         String[] res = new String[2];
         String pathBase = "";
-        // Determinar la ruta base según el tipo de Path
         switch (path) {
             case USUARIOS:
                 pathBase = "/usuarios?";
@@ -40,7 +39,7 @@ public class GeneratePrevNextPage {
         }
 
         if (host.contains("localhost")) {
-            host = "http://" + "localhost";
+            host = "http://" + "localhost:8080/api/v1";
         }
 
         String baseUrlConstructor = null;

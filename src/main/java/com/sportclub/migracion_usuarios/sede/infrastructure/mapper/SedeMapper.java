@@ -2,7 +2,9 @@ package com.sportclub.migracion_usuarios.sede.infrastructure.mapper;
 
 import com.sportclub.migracion_usuarios.sede.domain.dto.SedeDTO;
 import com.sportclub.migracion_usuarios.sede.domain.entity.Sede;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SedeMapper {
 
     // Método para convertir de Sede a SedeDTO

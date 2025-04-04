@@ -56,9 +56,23 @@ public class GeneralExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(buildGeneralResponse(e, request));
     }
 
-    @ExceptionHandler({Exception.class})
-    public ResponseEntity<Object> handleGenericException(BaseException e, HttpServletRequest request) {
-        BaseException baseException = new BaseException("ERR_UNKNOWN", "Unknown error occurred");
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(buildGeneralResponse(baseException, request));
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleGenericException(Exception e, HttpServletRequest request) {
+        if (e instanceof BaseException) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(buildGeneralResponse((BaseException) e, request));
+        }
+
+        log.error("Unhandled exception occurred: ", e);
+        ApiError error = ApiError.builder()
+                .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))
+                .error(e.getClass().getSimpleName())
+                .code("ERR_UNKNOWN")
+                .message("Unknown error occurred")
+                .detailedMessage(e.getMessage())
+                .path(request.getMethod().concat(":").concat(request.getRequestURI()))
+                .build();
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 }
