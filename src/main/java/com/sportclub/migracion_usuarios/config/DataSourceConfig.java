@@ -17,7 +17,7 @@ public class DataSourceConfig {
     @ConfigurationProperties("spring.datasource.source")
     public DataSource sourceDataSource() {
         return DataSourceBuilder.create()
-                .type(HikariDataSource.class) // Especifica explícitamente Hikari
+                .type(HikariDataSource.class)
                 .build();
     }
 
@@ -25,7 +25,7 @@ public class DataSourceConfig {
     @ConfigurationProperties("spring.datasource.target")
     public DataSource targetDataSource() {
         return DataSourceBuilder.create()
-                .type(HikariDataSource.class) // Especifica explícitamente Hikari
+                .type(HikariDataSource.class)
                 .build();
     }
 }

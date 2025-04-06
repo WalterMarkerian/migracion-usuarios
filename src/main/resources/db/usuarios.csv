@@ -1,0 +1,11 @@
+id,nombre,apellido,email,telefono,dni,sede_id,estado
+1,Juan,Pérez,juan.perez@email.com,1122334455,38618902,1,AUTORIZADO
+2,María,Gómez,maria.gomez@email.com,1144556677,28765432,1,AUTORIZADO
+3,Carlos,López,carlos.lopez@email.com,1155667788,32987654,2,AUTORIZADO
+4,Ana,Rodríguez,ana.rodriguez@email.com,1166778899,34567890,3,DENEGADO
+5,Luis,Martínez,luis.martinez@email.com,1177889900,31234567,4,AUTORIZADO
+6,Sofía,Fernández,sofia.fernandez@email.com,1188990011,35678901,5,AUTORIZADO
+7,Pedro,Díaz,pedro.diaz@email.com,1199001122,33445566,2,AUTORIZADO
+8,Laura,Sánchez,laura.sanchez@email.com,1100112233,37890123,3,DENEGADO
+9,Diego,González,diego.gonzalez@email.com,1111223344,39012345,4,AUTORIZADO
+10,Valeria,Torres,valeria.torres@email.com,1122334400,30123456,5,AUTORIZADO

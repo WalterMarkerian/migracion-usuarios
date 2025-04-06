@@ -30,7 +30,7 @@ public class SharedJpaConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean sharedEntityManagerFactory(
             EntityManagerFactoryBuilder builder,
-            @Qualifier("sourceDataSource") DataSource dataSource) { // Usamos source como default
+            @Qualifier("sourceDataSource") DataSource dataSource) {
 
         Map<String, Object> properties = new HashMap<>();
         properties.put("hibernate.hbm2ddl.auto", "update");

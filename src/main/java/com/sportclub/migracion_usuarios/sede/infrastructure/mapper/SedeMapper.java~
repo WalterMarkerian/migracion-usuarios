@@ -28,6 +28,7 @@ public class SedeMapper {
         }
 
         Sede sede = new Sede();
+        // No seteamos el ID aquí, lo generará la base de datos
         sede.setNombre(sedeDTO.getNombre());
         sede.setDireccion(sedeDTO.getDireccion());
         sede.setCiudad(sedeDTO.getCiudad());

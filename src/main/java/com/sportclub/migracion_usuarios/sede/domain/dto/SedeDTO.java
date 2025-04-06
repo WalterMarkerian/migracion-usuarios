@@ -11,7 +11,12 @@ import lombok.NoArgsConstructor;
 @Schema(description = "DTO que representa una sede en el sistema")
 public class SedeDTO {
 
-    @Schema(description = "Identificador único de la sede", example = "0001", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(
+            description = "Identificador único de la sede (automático, no requerido para creación)",
+            example = "1",
+            accessMode = Schema.AccessMode.READ_ONLY,  // Solo lectura en Swagger
+            requiredMode = Schema.RequiredMode.NOT_REQUIRED  // No es requerido
+    )
     private Long id;
 
     @Schema(description = "Nombre de la sede", example = "Sede Central", requiredMode = Schema.RequiredMode.REQUIRED)

@@ -1,8 +1,5 @@
--- Limpiar tablas (opcional, solo si quieres reiniciar los datos)
-DELETE FROM usuarios;
-DELETE FROM sedes;
 
--- Insertar sedes
+
 INSERT INTO sedes (id, nombre, direccion, ciudad) VALUES
 (1, 'Sede Central', 'Av. Corrientes 1234', 'Buenos Aires'),
 (2, 'Sede Norte', 'Av. Santa Fe 567', 'Rosario'),
@@ -10,7 +7,6 @@ INSERT INTO sedes (id, nombre, direccion, ciudad) VALUES
 (4, 'Sede Oeste', 'Av. San Martín 321', 'Mendoza'),
 (5, 'Sede Este', 'Av. Colón 654', 'Mar del Plata');
 
--- Insertar usuarios
 INSERT INTO usuarios (id, nombre, apellido, email, telefono, dni, sede_id, estado) VALUES
 (1, 'Juan', 'Pérez', 'juan.perez@sportclub.com', '1122334455', 38618902, 1, 'AUTORIZADO'),
 (2, 'María', 'Gómez', 'maria.gomez@sportclub.com', '1144556677', 28765432, 1, 'AUTORIZADO'),
@@ -23,6 +19,6 @@ INSERT INTO usuarios (id, nombre, apellido, email, telefono, dni, sede_id, estad
 (9, 'Diego', 'González', 'diego.gonzalez@sportclub.com', '1111223344', 39012345, 4, 'AUTORIZADO'),
 (10, 'Valeria', 'Torres', 'valeria.torres@sportclub.com', '1122334400', 30123456, 5, 'AUTORIZADO');
 
--- Reiniciar secuencias (para evitar conflictos con IDs)
 ALTER SEQUENCE IF EXISTS sedes_id_seq RESTART WITH 6;
 ALTER SEQUENCE IF EXISTS usuarios_id_seq RESTART WITH 11;
+

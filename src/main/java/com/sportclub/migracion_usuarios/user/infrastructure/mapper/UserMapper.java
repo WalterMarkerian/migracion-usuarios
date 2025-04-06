@@ -3,6 +3,7 @@ package com.sportclub.migracion_usuarios.user.infrastructure.mapper;
 import com.sportclub.migracion_usuarios.sede.domain.entity.Sede;
 import com.sportclub.migracion_usuarios.user.domain.dto.UserDTO;
 import com.sportclub.migracion_usuarios.user.domain.entity.User;
+import com.sportclub.migracion_usuarios.user.domain.enums.Estado;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,14 +33,14 @@ public class UserMapper {
         }
 
         User user = new User();
-        user.setId(userDTO.getId());
+        // No seteamos el ID aquí (se generará automáticamente)
         user.setNombre(userDTO.getNombre());
         user.setApellido(userDTO.getApellido());
         user.setEmail(userDTO.getEmail());
         user.setTelefono(userDTO.getTelefono());
         user.setDni(userDTO.getDni());
         user.setSede(sede);
-        user.setEstado(userDTO.getEstado());
+        user.setEstado(userDTO.getEstado() != null ? userDTO.getEstado() : Estado.DENEGADO);
 
         return user;
     }
@@ -68,7 +69,7 @@ public class UserMapper {
             user.setEstado(userDTO.getEstado());
         }
 
-        if (userDTO.getSedeId() != null && sede != null && sede.getId().equals(userDTO.getSedeId())) {
+        if (sede != null && (user.getSede() == null || !sede.getId().equals(user.getSede().getId()))) {
             user.setSede(sede);
         }
     }
