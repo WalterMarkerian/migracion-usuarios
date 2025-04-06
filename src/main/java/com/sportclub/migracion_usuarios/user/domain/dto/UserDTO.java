@@ -30,7 +30,7 @@ public class UserDTO {
     @Schema(description = "DNI del usuario", example = "38618902", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long dni;
 
-    @Schema(description = "ID de la sede a la que pertenece el usuario", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "ID de la sede a la que pertenece el usuario", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
     private Long sedeId;
 
     @Schema(
