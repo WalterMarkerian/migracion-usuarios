@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface SedeTargetRepository extends JpaRepository<Sede, Long> {
     Optional<Sede> findByNombre(String nombre);
 
-    boolean existsByNombre(String nombre); // Keep this if you need it for other purposes
+    boolean existsByNombre(String nombre);
 
 }

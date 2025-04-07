@@ -8,10 +8,10 @@ public class SedeNotFoundException extends BaseException {
     public static final String DEFAULT_ERROR_MESSAGE = "Sede no encontrada";
 
     public SedeNotFoundException() {
-        super(DEFAULT_ERROR_CODE, DEFAULT_ERROR_MESSAGE);  // Por defecto el mensaje está hardcodeado
+        super(DEFAULT_ERROR_CODE, DEFAULT_ERROR_MESSAGE);
     }
 
     public SedeNotFoundException(String customMessage) {
-        super(DEFAULT_ERROR_CODE, customMessage);  // Puedes pasar un mensaje personalizado
+        super(DEFAULT_ERROR_CODE, customMessage);
     }
 }

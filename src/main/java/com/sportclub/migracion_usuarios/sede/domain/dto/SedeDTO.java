@@ -14,8 +14,8 @@ public class SedeDTO {
     @Schema(
             description = "Identificador único de la sede (automático, no requerido para creación)",
             example = "1",
-            accessMode = Schema.AccessMode.READ_ONLY,  // Solo lectura en Swagger
-            requiredMode = Schema.RequiredMode.NOT_REQUIRED  // No es requerido
+            accessMode = Schema.AccessMode.READ_ONLY,
+            requiredMode = Schema.RequiredMode.NOT_REQUIRED
     )
     private Long id;
 

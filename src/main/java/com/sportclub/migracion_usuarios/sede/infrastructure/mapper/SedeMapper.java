@@ -21,7 +21,6 @@ public class SedeMapper {
         return sedeDTO;
     }
 
-    // Modificado para ignorar el ID al crear una nueva entidad
     public Sede toEntity(SedeDTO sedeDTO) {
         if (sedeDTO == null) {
             return null;

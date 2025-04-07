@@ -52,9 +52,5 @@ public class UserFinderAllImpl implements UserFinderAll {
                 prevNext.nextPageAndPrev()[1],
                 prevNext.nextPageAndPrev()[0]
         );
-
-
     }
-
-
 }

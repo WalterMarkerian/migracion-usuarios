@@ -48,14 +48,12 @@ public class UserUpdaterByIdImpl implements UserUpdaterById {
         Sede sedeSource = sedeSourceRepository.findById(userDTO.getSedeId())
                 .orElseThrow(() -> new RuntimeException(SEDE_NOT_FOUND_SOURCE + userDTO.getSedeId()));
 
-        // Mapea desde cero y conserva el ID original
         User updatedUser = userMapper.toEntity(userDTO, sedeSource);
         updatedUser.setId(id); // Mantener el mismo ID en la base source
 
         User savedUser = userSourceRepository.save(updatedUser);
         log.info(USER_UPDATED_SOURCE, savedUser.getDni());
 
-        // Sincronizar con destino si existe
         userTargetRepository.findByDni(savedUser.getDni()).ifPresentOrElse(
                 targetUser -> {
                     Sede sedeTarget = sedeTargetRepository.findByNombre(sedeSource.getNombre())

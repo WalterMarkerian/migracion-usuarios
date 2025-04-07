@@ -2,6 +2,7 @@ package com.sportclub.migracion_usuarios.commons.handler;
 
 import com.sportclub.migracion_usuarios.commons.domain.BaseException;
 import com.sportclub.migracion_usuarios.commons.model.ApiError;
+import com.sportclub.migracion_usuarios.migracion.domain.exception.SedeDestinoNotFoundException;
 import com.sportclub.migracion_usuarios.sede.domain.exception.SedeDuplicateNameException;
 import com.sportclub.migracion_usuarios.sede.domain.exception.SedeNotFoundException;
 import com.sportclub.migracion_usuarios.user.domain.exception.UserDniCantBeNullException;
@@ -51,7 +52,7 @@ public class GeneralExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(buildGeneralResponse(e, request));
     }
 
-    @ExceptionHandler({UserNotFoundException.class, SedeNotFoundException.class})
+    @ExceptionHandler({UserNotFoundException.class, SedeNotFoundException.class, SedeDestinoNotFoundException.class})
     public ResponseEntity<Object> handleNotFoundExceptions(BaseException e, HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(buildGeneralResponse(e, request));
     }

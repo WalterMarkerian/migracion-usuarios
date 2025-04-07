@@ -1,5 +1,6 @@
 package com.sportclub.migracion_usuarios.migracion.appliaction.migrate;
 
+import com.sportclub.migracion_usuarios.migracion.domain.exception.SedeDestinoNotFoundException;
 import com.sportclub.migracion_usuarios.sede.domain.entity.Sede;
 import com.sportclub.migracion_usuarios.sede.infrastructure.mapper.SedeMapper;
 import com.sportclub.migracion_usuarios.sede.infrastructure.repository.source.SedeSourceRepository;
@@ -44,13 +45,13 @@ public class MigracionServiceImpl implements MigracionService {
         List<Sede> sedesSource = sedeSourceRepo.findAll();
 
         for (Sede sourceSede : sedesSource) {
-            Optional<Sede> existing = sedeTargetRepo.findByNombre(sourceSede.getNombre()); // ← Asumo que nombre es único
+            Optional<Sede> existing = sedeTargetRepo.findByNombre(sourceSede.getNombre());
             if (existing.isEmpty()) {
                 Sede nuevaSede = sedeMapper.toEntity(sedeMapper.toDto(sourceSede));
                 sedeTargetRepo.save(nuevaSede);
-                log.info("✔ Sede insertada: {}", nuevaSede.getNombre());
+                log.info("Sede insertada: {}", nuevaSede.getNombre());
             } else {
-                log.info("• Sede ya existente: {}", sourceSede.getNombre());
+                log.info("Sede ya existente: {}", sourceSede.getNombre());
             }
         }
     }
@@ -62,12 +63,12 @@ public class MigracionServiceImpl implements MigracionService {
             Optional<User> existingOpt = userTargetRepo.findByDni(sourceUser.getDni());
 
             Sede sedeTarget = sedeTargetRepo.findByNombre(sourceUser.getSede().getNombre())
-                    .orElseThrow(() -> new RuntimeException("❌ Sede destino no encontrada: " + sourceUser.getSede().getNombre()));
+                    .orElseThrow(() -> new SedeDestinoNotFoundException("Sede destino no encontrada: " + sourceUser.getSede().getNombre()));
 
             if (existingOpt.isEmpty()) {
                 User nuevo = userMapper.toEntity(userMapper.toDto(sourceUser), sedeTarget);
                 userTargetRepo.save(nuevo);
-                log.info("✔ Usuario insertado: DNI {}", nuevo.getDni());
+                log.info("Usuario insertado: DNI {}", nuevo.getDni());
             } else {
                 User existente = existingOpt.get();
 
@@ -82,9 +83,9 @@ public class MigracionServiceImpl implements MigracionService {
                 if (datosActualizados) {
                     userMapper.updateFromDto(userMapper.toDto(sourceUser), existente, sedeTarget);
                     userTargetRepo.save(existente);
-                    log.info("✏ Usuario actualizado: DNI {}", existente.getDni());
+                    log.info("Usuario actualizado: DNI {}", existente.getDni());
                 } else {
-                    log.info("• Usuario sin cambios: DNI {}", existente.getDni());
+                    log.info("Usuario sin cambios: DNI {}", existente.getDni());
                 }
             }
         }

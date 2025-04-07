@@ -14,19 +14,16 @@
         </encoder>
     </appender>
 
-    <!-- Nivel general de logs -->
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </root>
 
-    <!-- Logger para tu paquete -->
     <logger name="com.sportclub.migracion_usuarios" level="DEBUG" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
     </logger>
 
-    <!-- Solo si el perfil activo es "dev", muestra SQL y parámetros -->
     <springProfile name="dev">
         <logger name="org.hibernate.SQL" level="DEBUG"/>
         <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>

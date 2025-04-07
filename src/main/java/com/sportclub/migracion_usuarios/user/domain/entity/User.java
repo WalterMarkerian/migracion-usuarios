@@ -43,9 +43,8 @@ public class User {
     @Schema(description = "Dni del usuario", example = "38618902")
     private Long dni;
 
-    // Relación ManyToOne unidireccional con la Sede
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sede_id", nullable = false) // La columna de clave foránea en la tabla de usuarios
+    @JoinColumn(name = "sede_id", nullable = false)
     @Schema(description = "Sede a la que pertenece el usuario")
     private Sede sede;
 

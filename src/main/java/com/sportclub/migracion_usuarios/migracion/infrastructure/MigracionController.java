@@ -27,11 +27,7 @@ public class MigracionController {
     })
     @PostMapping
     public ResponseEntity<String> migrar() {
-        try {
-            migracionService.migrarDatos();
-            return ResponseEntity.ok("Migración completada exitosamente");
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error durante la migración: " + e.getMessage());
-        }
+        migracionService.migrarDatos();
+        return ResponseEntity.ok("Migración completada exitosamente");
     }
 }
