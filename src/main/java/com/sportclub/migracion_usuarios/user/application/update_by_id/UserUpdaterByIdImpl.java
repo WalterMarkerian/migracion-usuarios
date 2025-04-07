@@ -17,11 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserUpdaterPartialByIdImpl implements UserUpdaterPartialById {
+public class UserUpdaterByIdImpl implements UserUpdaterById {
 
     private static final String USER_NOT_FOUND = "Usuario no encontrado con ID: {}";
-    private static final String UPDATE_START = "Iniciando actualización parcial para usuario ID: {}";
-    private static final String UPDATE_SUCCESS = "Usuario actualizado exitosamente - ID: {}";
+    private static final String UPDATE_START = "Iniciando actualización completa para usuario ID: {}";
+    private static final String UPDATE_SUCCESS = "Usuario actualizado completamente - ID: {}";
     private static final String USER_UPDATED_SOURCE = "Usuario actualizado en base source - DNI: {}";
     private static final String USER_SYNCED_TARGET = "Usuario sincronizado en base de datos destino - DNI: {}";
     private static final String USER_NOT_FOUND_TARGET = "No se encontró el usuario en la base de datos destino - DNI: {}";
@@ -36,10 +36,10 @@ public class UserUpdaterPartialByIdImpl implements UserUpdaterPartialById {
 
     @Override
     @Transactional
-    public UserDTO partialUpdateUserById(Long id, UserDTO userDTO) throws UserNotFoundException {
+    public UserDTO updateUserById(Long id, UserDTO userDTO) {
         log.debug(UPDATE_START, id);
 
-        User user = userSourceRepository.findById(id)
+        User existingUser = userSourceRepository.findById(id)
                 .orElseThrow(() -> {
                     log.warn(USER_NOT_FOUND, id);
                     return new UserNotFoundException("Usuario no encontrado con id: " + id);
@@ -48,22 +48,27 @@ public class UserUpdaterPartialByIdImpl implements UserUpdaterPartialById {
         Sede sedeSource = sedeSourceRepository.findById(userDTO.getSedeId())
                 .orElseThrow(() -> new RuntimeException(SEDE_NOT_FOUND_SOURCE + userDTO.getSedeId()));
 
-        userMapper.updateFromDto(userDTO, user, sedeSource);
-        User updatedSourceUser = userSourceRepository.save(user);
-        log.info(USER_UPDATED_SOURCE, updatedSourceUser.getDni());
+        // Mapea desde cero y conserva el ID original
+        User updatedUser = userMapper.toEntity(userDTO, sedeSource);
+        updatedUser.setId(id); // Mantener el mismo ID en la base source
 
-        userTargetRepository.findByDni(updatedSourceUser.getDni()).ifPresentOrElse(
+        User savedUser = userSourceRepository.save(updatedUser);
+        log.info(USER_UPDATED_SOURCE, savedUser.getDni());
+
+        // Sincronizar con destino si existe
+        userTargetRepository.findByDni(savedUser.getDni()).ifPresentOrElse(
                 targetUser -> {
                     Sede sedeTarget = sedeTargetRepository.findByNombre(sedeSource.getNombre())
                             .orElseThrow(() -> new RuntimeException(SEDE_NOT_FOUND_TARGET + sedeSource.getNombre()));
-                    userMapper.updateFromDto(userDTO, targetUser, sedeTarget);
-                    userTargetRepository.save(targetUser);
-                    log.info(USER_SYNCED_TARGET, targetUser.getDni());
+                    User fullTargetUser = userMapper.toEntity(userDTO, sedeTarget);
+                    fullTargetUser.setId(targetUser.getId()); // Mantener ID en destino
+                    userTargetRepository.save(fullTargetUser);
+                    log.info(USER_SYNCED_TARGET, fullTargetUser.getDni());
                 },
-                () -> log.warn(USER_NOT_FOUND_TARGET, updatedSourceUser.getDni())
+                () -> log.warn(USER_NOT_FOUND_TARGET, savedUser.getDni())
         );
 
         log.info(UPDATE_SUCCESS, id);
-        return userMapper.toDto(updatedSourceUser);
+        return userMapper.toDto(savedUser);
     }
 }

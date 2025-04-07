@@ -4,7 +4,7 @@ import com.sportclub.migracion_usuarios.user.application.create.UserCreator;
 import com.sportclub.migracion_usuarios.user.application.delete_by_id.UserDeleterById;
 import com.sportclub.migracion_usuarios.user.application.find_all.UserFinderAll;
 import com.sportclub.migracion_usuarios.user.application.find_by_id.UserFinderById;
-import com.sportclub.migracion_usuarios.user.application.update_by_id.UserUpdaterPartialById;
+import com.sportclub.migracion_usuarios.user.application.update_by_id.UserUpdaterById;
 import com.sportclub.migracion_usuarios.user.domain.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ public class UserController {
     private final UserFinderById userFinderById;
     private final UserFinderAll userFinderAll;
     private final UserDeleterById userDeleterById;
-    private final UserUpdaterPartialById userUpdaterPartialById;
+    private final UserUpdaterById userUpdaterById;
 
     @PostMapping
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
@@ -46,11 +46,11 @@ public class UserController {
         return ResponseEntity.ok(userFinderAll.findAll(page, pageSize, sort));
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<UserDTO> partialUpdateUser(
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDTO> updateUser(
             @PathVariable Long id,
             @RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(userUpdaterPartialById.partialUpdateUserById(id, userDTO));
+        return ResponseEntity.ok(userUpdaterById.updateUserById(id, userDTO));
     }
 
     @DeleteMapping("/{id}")
