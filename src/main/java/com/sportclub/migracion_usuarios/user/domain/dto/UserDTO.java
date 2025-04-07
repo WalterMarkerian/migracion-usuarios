@@ -1,8 +1,10 @@
 package com.sportclub.migracion_usuarios.user.domain.dto;
 
+import com.sportclub.migracion_usuarios.commons.validation.EstadoValido;
 import com.sportclub.migracion_usuarios.user.domain.enums.Estado;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+
 
 @Data
 public class UserDTO {
@@ -38,5 +40,6 @@ public class UserDTO {
             allowableValues = {"AUTORIZADO", "DENEGADO"},
             example = "DENEGADO"
     )
+    @EstadoValido
     private Estado estado;
 }

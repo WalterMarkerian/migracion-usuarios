@@ -1,11 +1,14 @@
 package com.sportclub.migracion_usuarios.user.domain.enums;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.sportclub.migracion_usuarios.commons.deserializer.EstadoDeserializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(
         description = "Estados básicos de autorización de un usuario",
         enumAsRef = true
 )
+@JsonDeserialize(using = EstadoDeserializer.class)
 public enum Estado {
 
     @Schema(
@@ -20,13 +23,5 @@ public enum Estado {
     )
     DENEGADO;
 
-    // Método para verificar si el estado es autorizado
-    public boolean esAutorizado() {
-        return this == AUTORIZADO;
-    }
 
-    // Método para obtener descripción legible
-    public String getDescripcion() {
-        return this == AUTORIZADO ? "Acceso autorizado" : "Acceso denegado";
-    }
 }
