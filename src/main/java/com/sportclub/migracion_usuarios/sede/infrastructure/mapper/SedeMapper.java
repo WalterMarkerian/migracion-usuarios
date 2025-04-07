@@ -35,19 +35,11 @@ public class SedeMapper {
         return sede;
     }
 
-    public void updateFromDto(SedeDTO sedeDTO, Sede sede) {
-        if (sedeDTO == null || sede == null) {
-            return;
-        }
+    public void replaceFromDto(SedeDTO dto, Sede entity) {
+        if (dto == null || entity == null) return;
 
-        if (sedeDTO.getNombre() != null) {
-            sede.setNombre(sedeDTO.getNombre());
-        }
-        if (sedeDTO.getDireccion() != null) {
-            sede.setDireccion(sedeDTO.getDireccion());
-        }
-        if (sedeDTO.getCiudad() != null) {
-            sede.setCiudad(sedeDTO.getCiudad());
-        }
+        entity.setNombre(dto.getNombre());
+        entity.setDireccion(dto.getDireccion());
+        entity.setCiudad(dto.getCiudad());
     }
 }

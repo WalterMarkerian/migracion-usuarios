@@ -5,7 +5,7 @@ import com.sportclub.migracion_usuarios.sede.application.delete_by_id.SedeDelete
 import com.sportclub.migracion_usuarios.sede.application.find_all.SedeFinderAll;
 import com.sportclub.migracion_usuarios.sede.application.find_by_id.SedeFinderById;
 import com.sportclub.migracion_usuarios.sede.application.find_by_nombre.SedeFinderByNombre;
-import com.sportclub.migracion_usuarios.sede.application.update_by_id.SedeUpdaterPartialById;
+import com.sportclub.migracion_usuarios.sede.application.update_by_id.SedeUpdaterById;
 import com.sportclub.migracion_usuarios.sede.domain.dto.SedeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class SedeController {
     private final SedeFinderByNombre sedeFinderByNombre;
     private final SedeFinderAll sedeFinderAll;
     private final SedeDeleterById sedeDeleterById;
-    private final SedeUpdaterPartialById sedeUpdaterPartialById;
+    private final SedeUpdaterById sedeUpdaterById;
 
     @PostMapping
     public ResponseEntity<SedeDTO> createSede(@RequestBody SedeDTO sedeDTO) {
@@ -50,11 +50,11 @@ public class SedeController {
         return ResponseEntity.ok(sedeFinderAll.findAll(page, pageSize, sort));
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<SedeDTO> partialUpdateSede(
+    @PutMapping("/{id}")
+    public ResponseEntity<SedeDTO> updateSede(
             @PathVariable Long id,
             @RequestBody SedeDTO sedeDTO) {
-        SedeDTO updatedSede = sedeUpdaterPartialById.partialUpdateSedeById(id, sedeDTO);
+        SedeDTO updatedSede = sedeUpdaterById.updateSedeById(id, sedeDTO);
         return ResponseEntity.ok(updatedSede);
     }
 
