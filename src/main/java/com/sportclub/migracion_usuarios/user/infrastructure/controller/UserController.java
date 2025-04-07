@@ -6,9 +6,6 @@ import com.sportclub.migracion_usuarios.user.application.find_all.UserFinderAll;
 import com.sportclub.migracion_usuarios.user.application.find_by_id.UserFinderById;
 import com.sportclub.migracion_usuarios.user.application.update_by_id.UserUpdaterPartialById;
 import com.sportclub.migracion_usuarios.user.domain.dto.UserDTO;
-import com.sportclub.migracion_usuarios.user.domain.exception.UserDniCantBeNullException;
-import com.sportclub.migracion_usuarios.user.domain.exception.UserDuplicateDniException;
-import com.sportclub.migracion_usuarios.user.domain.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,37 +22,20 @@ public class UserController {
     private final UserDeleterById userDeleterById;
     private final UserUpdaterPartialById userUpdaterPartialById;
 
-
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
-        try {
-            UserDTO createdUser = userCreator.createUser(userDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
-        } catch (UserDniCantBeNullException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (UserDuplicateDniException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+        UserDTO createdUser = userCreator.createUser(userDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        try {
-            UserDTO user = userFinderById.findById(id);
-            return ResponseEntity.ok(user);
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
+        return ResponseEntity.ok(userFinderById.findById(id));
     }
 
     @GetMapping("/dni/{dni}")
-    public ResponseEntity<?> getUserByDni(@PathVariable Long dni) {
-        try {
-            UserDTO user = userFinderById.findById(dni);
-            return ResponseEntity.ok(user);
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<UserDTO> getUserByDni(@PathVariable Long dni) {
+        return ResponseEntity.ok(userFinderById.findById(dni));
     }
 
     @GetMapping
@@ -63,29 +43,19 @@ public class UserController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "id") String sort) {
-
         return ResponseEntity.ok(userFinderAll.findAll(page, pageSize, sort));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> partialUpdateUser(
+    public ResponseEntity<UserDTO> partialUpdateUser(
             @PathVariable Long id,
             @RequestBody UserDTO userDTO) {
-        try {
-            UserDTO updatedUser = userUpdaterPartialById.partialUpdateUserById(id, userDTO);
-            return ResponseEntity.ok(updatedUser);
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+        return ResponseEntity.ok(userUpdaterPartialById.partialUpdateUserById(id, userDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        try {
-            userDeleterById.deleteUserById(id);
-            return ResponseEntity.noContent().build();
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userDeleterById.deleteUserById(id);
+        return ResponseEntity.noContent().build();
     }
 }

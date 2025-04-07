@@ -1,6 +1,7 @@
 package com.sportclub.migracion_usuarios.user.application.create;
 
 import com.sportclub.migracion_usuarios.sede.domain.entity.Sede;
+import com.sportclub.migracion_usuarios.sede.domain.exception.SedeNotFoundException;
 import com.sportclub.migracion_usuarios.sede.infrastructure.repository.source.SedeSourceRepository;
 import com.sportclub.migracion_usuarios.user.domain.dto.UserDTO;
 import com.sportclub.migracion_usuarios.user.domain.entity.User;
@@ -29,7 +30,7 @@ public class UserCreatorImpl implements UserCreator {
 
     @Transactional
     @Override
-    public UserDTO createUser(UserDTO userDTO) throws UserDuplicateDniException, UserDniCantBeNullException {
+    public UserDTO createUser(UserDTO userDTO) throws UserDuplicateDniException, UserDniCantBeNullException, SedeNotFoundException {
         validateUserDTO(userDTO);
         checkDuplicateDni(userDTO.getDni());
 
@@ -55,9 +56,9 @@ public class UserCreatorImpl implements UserCreator {
         }
     }
 
-    private User createAndSaveUser(UserDTO userDTO) {
+    private User createAndSaveUser(UserDTO userDTO) throws SedeNotFoundException {
         Sede sede = sedeRepository.findById(userDTO.getSedeId())
-                .orElseThrow(() -> new RuntimeException("Sede no encontrada con ID: " + userDTO.getSedeId()));
+                .orElseThrow(() -> new SedeNotFoundException("Sede no encontrada con ID: " + userDTO.getSedeId()));
         User user = userMapper.toEntity(userDTO, sede);
         setDefaultStatusIfNull(user);
         return userRepository.save(user);

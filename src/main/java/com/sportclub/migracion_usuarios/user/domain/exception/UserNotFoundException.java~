@@ -9,10 +9,10 @@ public class UserNotFoundException extends BaseException {
     public static final String DEFAULT_ERROR_MESSAGE = "Usuario no encontrado";
 
     public UserNotFoundException() {
-        super(DEFAULT_ERROR_CODE, DEFAULT_ERROR_MESSAGE);
+        super(DEFAULT_ERROR_CODE, DEFAULT_ERROR_MESSAGE);  // Por defecto el mensaje está hardcodeado
     }
 
     public UserNotFoundException(String customMessage) {
-        super(DEFAULT_ERROR_CODE, customMessage);
+        super(DEFAULT_ERROR_CODE, customMessage);  // Puedes pasar un mensaje personalizado
     }
 }
