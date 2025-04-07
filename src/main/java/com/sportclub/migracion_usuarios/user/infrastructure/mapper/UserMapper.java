@@ -33,7 +33,6 @@ public class UserMapper {
         }
 
         User user = new User();
-        // No seteamos el ID aquí (se generará automáticamente)
         user.setNombre(userDTO.getNombre());
         user.setApellido(userDTO.getApellido());
         user.setEmail(userDTO.getEmail());

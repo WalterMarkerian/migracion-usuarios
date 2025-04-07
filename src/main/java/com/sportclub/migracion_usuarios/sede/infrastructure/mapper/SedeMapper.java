@@ -40,7 +40,6 @@ public class SedeMapper {
             return;
         }
 
-        // Actualizamos todos los campos excepto el ID
         if (sedeDTO.getNombre() != null) {
             sede.setNombre(sedeDTO.getNombre());
         }
