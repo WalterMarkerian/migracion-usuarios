@@ -5,7 +5,7 @@ import com.sportclub.migracion_usuarios.commons.helpers.GeneratePrevNextPage;
 import com.sportclub.migracion_usuarios.sede.domain.dto.SedeDTO;
 import com.sportclub.migracion_usuarios.sede.domain.entity.Sede;
 import com.sportclub.migracion_usuarios.sede.infrastructure.mapper.SedeMapper;
-import com.sportclub.migracion_usuarios.sede.infrastructure.repository.SedeRepository;
+import com.sportclub.migracion_usuarios.sede.infrastructure.repository.source.SedeSourceRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,7 +22,7 @@ import java.util.List;
 public class SedeFinderAllImpl implements SedeFinderAll {
 
     private final HttpServletRequest request;
-    private final SedeRepository sedeRepository;
+    private final SedeSourceRepository sedeRepository;
     private final SedeMapper sedeMapper;
 
     @Override

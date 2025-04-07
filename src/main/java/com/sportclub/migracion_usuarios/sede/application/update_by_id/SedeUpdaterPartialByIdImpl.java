@@ -3,7 +3,7 @@ package com.sportclub.migracion_usuarios.sede.application.update_by_id;
 import com.sportclub.migracion_usuarios.sede.domain.dto.SedeDTO;
 import com.sportclub.migracion_usuarios.sede.domain.exception.SedeNotFoundException;
 import com.sportclub.migracion_usuarios.sede.infrastructure.mapper.SedeMapper;
-import com.sportclub.migracion_usuarios.sede.infrastructure.repository.SedeRepository;
+import com.sportclub.migracion_usuarios.sede.infrastructure.repository.source.SedeSourceRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SedeUpdaterPartialByIdImpl implements SedeUpdaterPartialById {
 
-    private final SedeRepository sedeRepository;
+    private final SedeSourceRepository sedeRepository;
     private final SedeMapper sedeMapper;
 
     @Transactional

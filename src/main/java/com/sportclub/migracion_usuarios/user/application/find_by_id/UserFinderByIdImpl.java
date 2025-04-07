@@ -3,7 +3,7 @@ package com.sportclub.migracion_usuarios.user.application.find_by_id;
 import com.sportclub.migracion_usuarios.user.domain.dto.UserDTO;
 import com.sportclub.migracion_usuarios.user.domain.exception.UserNotFoundException;
 import com.sportclub.migracion_usuarios.user.infrastructure.mapper.UserMapper;
-import com.sportclub.migracion_usuarios.user.infrastructure.repository.UserRepository;
+import com.sportclub.migracion_usuarios.user.infrastructure.repository.source.UserSourceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class UserFinderByIdImpl implements UserFinderById {
     private static final String USER_NOT_FOUND = "Usuario no encontrado con ID: {}";
     private static final String USER_FOUND = "Usuario encontrado con ID: {}";
 
-    private final UserRepository userRepository;
+    private final UserSourceRepository userRepository;
     private final UserMapper userMapper;
 
     @Override

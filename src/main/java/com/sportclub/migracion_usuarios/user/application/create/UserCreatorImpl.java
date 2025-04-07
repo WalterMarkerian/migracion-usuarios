@@ -1,14 +1,14 @@
 package com.sportclub.migracion_usuarios.user.application.create;
 
 import com.sportclub.migracion_usuarios.sede.domain.entity.Sede;
-import com.sportclub.migracion_usuarios.sede.infrastructure.repository.SedeRepository;
+import com.sportclub.migracion_usuarios.sede.infrastructure.repository.source.SedeSourceRepository;
 import com.sportclub.migracion_usuarios.user.domain.dto.UserDTO;
 import com.sportclub.migracion_usuarios.user.domain.entity.User;
 import com.sportclub.migracion_usuarios.user.domain.enums.Estado;
 import com.sportclub.migracion_usuarios.user.domain.exception.UserDniCantBeNullException;
 import com.sportclub.migracion_usuarios.user.domain.exception.UserDuplicateDniException;
 import com.sportclub.migracion_usuarios.user.infrastructure.mapper.UserMapper;
-import com.sportclub.migracion_usuarios.user.infrastructure.repository.UserRepository;
+import com.sportclub.migracion_usuarios.user.infrastructure.repository.source.UserSourceRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +23,8 @@ public class UserCreatorImpl implements UserCreator {
     private static final String DNI_DUPLICATE_FORMAT = "DNI duplicado: %s";
     private static final String USER_CREATED_FORMAT = "Usuario creado exitosamente - ID: %d, DNI: %s";
 
-    private final UserRepository userRepository;
-    private final SedeRepository sedeRepository;
+    private final UserSourceRepository userRepository;
+    private final SedeSourceRepository sedeRepository;
     private final UserMapper userMapper;
 
     @Transactional

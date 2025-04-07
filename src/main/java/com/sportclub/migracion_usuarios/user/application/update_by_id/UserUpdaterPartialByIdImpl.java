@@ -1,12 +1,12 @@
 package com.sportclub.migracion_usuarios.user.application.update_by_id;
 
 import com.sportclub.migracion_usuarios.sede.domain.entity.Sede;
-import com.sportclub.migracion_usuarios.sede.infrastructure.repository.SedeRepository;
+import com.sportclub.migracion_usuarios.sede.infrastructure.repository.source.SedeSourceRepository;
 import com.sportclub.migracion_usuarios.user.domain.dto.UserDTO;
 import com.sportclub.migracion_usuarios.user.domain.entity.User;
 import com.sportclub.migracion_usuarios.user.domain.exception.UserNotFoundException;
 import com.sportclub.migracion_usuarios.user.infrastructure.mapper.UserMapper;
-import com.sportclub.migracion_usuarios.user.infrastructure.repository.UserRepository;
+import com.sportclub.migracion_usuarios.user.infrastructure.repository.source.UserSourceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,8 +21,8 @@ public class UserUpdaterPartialByIdImpl implements UserUpdaterPartialById {
     private static final String UPDATE_START = "Iniciando actualización parcial para usuario ID: {}";
     private static final String UPDATE_SUCCESS = "Usuario actualizado exitosamente - ID: {}";
 
-    private final UserRepository userRepository;
-    private final SedeRepository sedeRepository;
+    private final UserSourceRepository userRepository;
+    private final SedeSourceRepository sedeRepository;
     private final UserMapper userMapper;
 
     @Override

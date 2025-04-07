@@ -1,7 +1,7 @@
 package com.sportclub.migracion_usuarios.user.application.delete_by_id;
 
 import com.sportclub.migracion_usuarios.user.domain.exception.UserNotFoundException;
-import com.sportclub.migracion_usuarios.user.infrastructure.repository.UserRepository;
+import com.sportclub.migracion_usuarios.user.infrastructure.repository.source.UserSourceRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ public class UserDeleterByIdImpl implements UserDeleterById {
     private static final String DELETION_SUCCESS_MSG = "Usuario con ID {} eliminado exitosamente";
     private static final String DELETION_ATTEMPT_MSG = "Intentando eliminar usuario con ID: {}";
 
-    private final UserRepository userRepository;
+    private final UserSourceRepository userRepository;
 
     @Override
     @Transactional

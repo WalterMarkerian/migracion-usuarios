@@ -20,8 +20,8 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @EnableJpaRepositories(
         basePackages = {
-                "com.sportclub.migracion_usuarios.sede.infrastructure.repository",
-                "com.sportclub.migracion_usuarios.user.infrastructure.repository"
+                "com.sportclub.migracion_usuarios.sede.infrastructure.repository.source",
+                "com.sportclub.migracion_usuarios.user.infrastructure.repository.source"
         },
         entityManagerFactoryRef = "entityManagerFactoryDb1",
         transactionManagerRef = "transactionManagerDb1"

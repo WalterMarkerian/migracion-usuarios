@@ -5,7 +5,7 @@ import com.sportclub.migracion_usuarios.commons.helpers.GeneratePrevNextPage;
 import com.sportclub.migracion_usuarios.user.domain.dto.UserDTO;
 import com.sportclub.migracion_usuarios.user.domain.entity.User;
 import com.sportclub.migracion_usuarios.user.infrastructure.mapper.UserMapper;
-import com.sportclub.migracion_usuarios.user.infrastructure.repository.UserRepository;
+import com.sportclub.migracion_usuarios.user.infrastructure.repository.source.UserSourceRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserFinderAllImpl implements UserFinderAll {
 
-    private final UserRepository userRepository;
+    private final UserSourceRepository userRepository;
     private final UserMapper userMapper;
     private final HttpServletRequest request;
 
