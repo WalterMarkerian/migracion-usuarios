@@ -12,7 +12,6 @@ public class ErrorMessageCreatorImpl implements ErrorMessageCreator {
     MessageSource messageResource;
 
     public String getMessage(String code) {
-        // Usando Locale.of() (Java 19+)
         return messageResource.getMessage(code, null, Locale.US);
 
     }

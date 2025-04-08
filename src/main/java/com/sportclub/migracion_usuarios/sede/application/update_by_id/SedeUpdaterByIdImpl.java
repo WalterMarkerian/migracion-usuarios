@@ -28,7 +28,6 @@ public class SedeUpdaterByIdImpl implements SedeUpdaterById {
         Sede source = sedeSourceRepository.findById(id)
                 .orElseThrow(() -> new SedeNotFoundException("Sede no encontrada con ID: " + id));
 
-        // Reemplazar todos los campos, incluso si son null
         sedeMapper.replaceFromDto(sedeDTO, source);
         Sede updatedSource = sedeSourceRepository.save(source);
 

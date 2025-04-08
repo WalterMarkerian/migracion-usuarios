@@ -49,7 +49,7 @@ public class UserUpdaterByIdImpl implements UserUpdaterById {
                 .orElseThrow(() -> new RuntimeException(SEDE_NOT_FOUND_SOURCE + userDTO.getSedeId()));
 
         User updatedUser = userMapper.toEntity(userDTO, sedeSource);
-        updatedUser.setId(id); // Mantener el mismo ID en la base source
+        updatedUser.setId(id);
 
         User savedUser = userSourceRepository.save(updatedUser);
         log.info(USER_UPDATED_SOURCE, savedUser.getDni());
@@ -59,7 +59,7 @@ public class UserUpdaterByIdImpl implements UserUpdaterById {
                     Sede sedeTarget = sedeTargetRepository.findByNombre(sedeSource.getNombre())
                             .orElseThrow(() -> new RuntimeException(SEDE_NOT_FOUND_TARGET + sedeSource.getNombre()));
                     User fullTargetUser = userMapper.toEntity(userDTO, sedeTarget);
-                    fullTargetUser.setId(targetUser.getId()); // Mantener ID en destino
+                    fullTargetUser.setId(targetUser.getId());
                     userTargetRepository.save(fullTargetUser);
                     log.info(USER_SYNCED_TARGET, fullTargetUser.getDni());
                 },
