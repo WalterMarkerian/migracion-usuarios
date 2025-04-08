@@ -1,0 +1,7 @@
+package com.sportclub.migracion_usuarios.security.exception;
+
+public class DniInvalidFormatException extends RuntimeException {
+    public DniInvalidFormatException(String message) {
+        super(message);
+    }
+}
